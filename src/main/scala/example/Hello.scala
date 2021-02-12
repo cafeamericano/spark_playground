@@ -18,6 +18,10 @@ object FirstMongoSparkApp extends App {
   val readConfig = ReadConfig(Map("collection" -> "cities", "readPreference.name" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
   val customRdd = MongoSpark.load(spark.sparkContext, readConfig)
 
+  MongoSpark.save(customRdd)
+
   customRdd.toDF().show()
+  
+  spark.stop()
 
 }
