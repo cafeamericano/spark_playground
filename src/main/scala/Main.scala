@@ -16,23 +16,33 @@ object Main extends App {
 
   import spark.implicits._
 
-  val readConfig = ReadConfig(Map("collection" -> "cities", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
-  val citiesRdd = MongoSpark.load(spark.sparkContext, readConfig)
+  val readConfigCities = ReadConfig(Map("collection" -> "cities", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
+  val citiesRdd = MongoSpark.load(spark.sparkContext, readConfigCities)
   val citiesDf = citiesRdd.toDF()
+  citiesDf.show()
   citiesDf.createOrReplaceTempView("cities")
-  citiesDf.select(countDistinct("name")).show(true)
+
+  val readConfigStates = ReadConfig(Map("collection" -> "states", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
+  val statesRdd = MongoSpark.load(spark.sparkContext, readConfigStates)
+  val statesDf = statesRdd.toDF()
+  statesDf.show()
+  statesDf.createOrReplaceTempView("states")
+
   val results = spark.sql(
     """
       |SELECT
-        |state,
+        |states.name,
         |count(*),
         |sum(population)
       |FROM cities
+      |LEFT JOIN states ON cities.state = states.abbr
       |WHERE population > 100000
-      |GROUP BY state
+      |GROUP BY states.name
     |""".stripMargin
   )
+
   results.show()
   MongoSpark.save(results)
   spark.stop()
+
 }
