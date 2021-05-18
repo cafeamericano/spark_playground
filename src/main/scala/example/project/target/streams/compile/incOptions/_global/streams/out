@@ -1,2 +1,0 @@
-[0m[[0m[0mdebug[0m] [0m[0mCreated transactional ClassFileManager with tempDir = /home/mfarmer5102/sbtTest/myscala/src/main/scala/example/project/target/scala-2.12/sbt-1.0/classes.bak[0m
-[0m[[0m[0mdebug[0m] [0m[0mRemoving the temporary directory used for backing up class files: /home/mfarmer5102/sbtTest/myscala/src/main/scala/example/project/target/scala-2.12/sbt-1.0/classes.bak[0m

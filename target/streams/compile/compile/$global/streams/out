@@ -1,4 +1,0 @@
-[0m[[0m[31merror[0m] [0m[0m/home/mfarmer5102/sbtTest/myscala/src/main/scala/example/Hello.scala:16:15: not found: value MongoSpark[0m
-[0m[[0m[31merror[0m] [0m[0m    val rdd = MongoSpark.load(spark)[0m
-[0m[[0m[31merror[0m] [0m[0m              ^[0m
-[0m[[0m[31merror[0m] [0m[0mone error found[0m

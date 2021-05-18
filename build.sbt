@@ -1,46 +1,15 @@
-import Dependencies._
+name := "AppsByMatthewSpark"
 
-ThisBuild / scalaVersion     := "2.12.8"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.example"
-ThisBuild / organizationName := "example"
+version := "0.1"
 
-lazy val root = (project in file("."))
-  .settings(
-    name := "MyScala",
-    libraryDependencies += scalaTest % Test
-  )
+scalaVersion := "2.12.12"
 
 libraryDependencies ++= Seq(
-  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0",
   "org.apache.spark" %% "spark-core" % "3.0.0",
-  "org.apache.spark" %% "spark-sql" % "3.0.0"
+  "org.apache.spark" %% "spark-sql" % "3.0.0",
+  "org.apache.spark" %% "spark-mllib" % "3.0.0",
+  "org.apache.spark" %% "spark-streaming" % "3.0.0",
+  "org.twitter4j" % "twitter4j-core" % "4.0.4",
+  "org.twitter4j" % "twitter4j-stream" % "4.0.4",
+  "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0"
 )
-
-// Uncomment the following for publishing to Sonatype.
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for more detail.
-
-// ThisBuild / description := "Some descripiton about your project."
-// ThisBuild / licenses    := List("Apache 2" -> new URL("http://www.apache.org/licenses/LICENSE-2.0.txt"))
-// ThisBuild / homepage    := Some(url("https://github.com/example/project"))
-// ThisBuild / scmInfo := Some(
-//   ScmInfo(
-//     url("https://github.com/your-account/your-project"),
-//     "scm:git@github.com:your-account/your-project.git"
-//   )
-// )
-// ThisBuild / developers := List(
-//   Developer(
-//     id    = "Your identifier",
-//     name  = "Your Name",
-//     email = "your@email",
-//     url   = url("http://your.url")
-//   )
-// )
-// ThisBuild / pomIncludeRepository := { _ => false }
-// ThisBuild / publishTo := {
-//   val nexus = "https://oss.sonatype.org/"
-//   if (isSnapshot.value) Some("snapshots" at nexus + "content/repositories/snapshots")
-//   else Some("releases" at nexus + "service/local/staging/deploy/maven2")
-// }
-// ThisBuild / publishMavenStyle := true

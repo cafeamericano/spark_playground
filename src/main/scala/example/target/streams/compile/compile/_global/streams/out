@@ -1,7 +1,0 @@
-[0m[[0m[31merror[0m] [0m[0m/home/mfarmer5102/sbtTest/myscala/src/main/scala/example/Hello.scala:8:16: object apache is not a member of package org[0m
-[0m[[0m[31merror[0m] [0m[0m    import org.apache.spark.sql.SparkSession[0m
-[0m[[0m[31merror[0m] [0m[0m               ^[0m
-[0m[[0m[31merror[0m] [0m[0m/home/mfarmer5102/sbtTest/myscala/src/main/scala/example/Hello.scala:9:17: not found: value SparkSession[0m
-[0m[[0m[31merror[0m] [0m[0m    val spark = SparkSession.builder()[0m
-[0m[[0m[31merror[0m] [0m[0m                ^[0m
-[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
