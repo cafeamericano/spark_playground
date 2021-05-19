@@ -4,6 +4,9 @@ import com.mongodb.spark.config.{ReadConfig, WriteConfig}
 import org.apache.spark.{SparkException, rdd}
 import org.apache.spark.sql.{DataFrameWriter, SparkSession}
 import org.apache.spark.sql.functions.{col, countDistinct, sumDistinct, current_date}
+import org.bson.{BsonDocument, Document}
+import org.apache.spark.sql.functions.current_timestamp
+import org.apache.spark.sql.functions.regexp_replace
 
 object Main extends App {
 
@@ -40,9 +43,32 @@ object Main extends App {
       |GROUP BY states.name
     |""".stripMargin
   )
-
   results.show()
+
+  // Define the count of all results from the query
+  val countAllResults = results.count()
+
+  // Filter out results where the first column isn't Georgia
+  val filterResults = results.filter(x => {
+    print(x)
+    print(x(0))
+    x(0) == "Georgia"
+  })
+
+  // Define the count of filtered results, then show
+  val countFilteredResults = filterResults.count()
+  filterResults.show()
+
+  // Add a timestamp column to the table
+  val expandedDf = filterResults.withColumn("timestamp", current_timestamp())
+  val updatedDf = expandedDf.withColumn("name", regexp_replace(col("name"), "a", "A"))
+
+  // Save all of the tables to the DB
   MongoSpark.save(results)
+  MongoSpark.save(filterResults)
+  MongoSpark.save(expandedDf)
+  MongoSpark.save(updatedDf)
+
   spark.stop()
 
 }
