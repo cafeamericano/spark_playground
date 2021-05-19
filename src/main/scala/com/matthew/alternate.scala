@@ -1,15 +1,11 @@
-//import com.mongodb.client.{MongoClient, MongoClients}
-import com.mongodb.spark.MongoSpark
-import com.mongodb.spark.config.{ReadConfig, WriteConfig}
-import org.apache.spark.{SparkException, rdd}
-import org.apache.spark.sql.{DataFrameWriter, SparkSession}
-import org.apache.spark.sql.functions.{col, countDistinct, sumDistinct, current_date}
-import org.bson.{BsonDocument, Document}
-import org.apache.spark.sql.functions.current_timestamp
-import org.apache.spark.sql.functions.regexp_replace
-import org.apache.spark.sql.functions._
+package com.matthew
 
-object Alternate extends App {
+import com.mongodb.spark.MongoSpark
+import com.mongodb.spark.config.ReadConfig
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.{collect_list, first, sum}
+
+object alternate extends App {
 
   val spark = SparkSession.builder()
     .master("local")

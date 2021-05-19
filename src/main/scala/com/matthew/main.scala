@@ -1,14 +1,11 @@
-//import com.mongodb.client.{MongoClient, MongoClients}
-import com.mongodb.spark.MongoSpark
-import com.mongodb.spark.config.{ReadConfig, WriteConfig}
-import org.apache.spark.{SparkException, rdd}
-import org.apache.spark.sql.{DataFrameWriter, SparkSession}
-import org.apache.spark.sql.functions.{col, countDistinct, sumDistinct, current_date}
-import org.bson.{BsonDocument, Document}
-import org.apache.spark.sql.functions.current_timestamp
-import org.apache.spark.sql.functions.regexp_replace
+package com.matthew
 
-object Main extends App {
+import com.mongodb.spark.MongoSpark
+import com.mongodb.spark.config.ReadConfig
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.functions.{col, current_timestamp, regexp_replace}
+
+object main extends App {
 
   val spark = SparkSession.builder()
     .master("local")
@@ -16,8 +13,6 @@ object Main extends App {
     .config("spark.mongodb.input.uri", "mongodb://192.168.86.40/test.cities")
     .config("spark.mongodb.output.uri", "mongodb://192.168.86.40/test.cities_output")
     .getOrCreate()
-
-  import spark.implicits._
 
   val readConfigCities = ReadConfig(Map("collection" -> "cities", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
   val citiesRdd = MongoSpark.load(spark.sparkContext, readConfigCities)
@@ -34,14 +29,14 @@ object Main extends App {
   val results = spark.sql(
     """
       |SELECT
-        |states.name,
-        |count(*),
-        |sum(population)
+      |states.name,
+      |count(*),
+      |sum(population)
       |FROM cities
       |LEFT JOIN states ON cities.state = states.abbr
       |WHERE population > 100000
       |GROUP BY states.name
-    |""".stripMargin
+      |""".stripMargin
   )
   results.show()
 
