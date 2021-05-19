@@ -13,3 +13,10 @@ libraryDependencies ++= Seq(
   "org.twitter4j" % "twitter4j-stream" % "4.0.4",
   "org.mongodb.spark" %% "mongo-spark-connector" % "3.0.0"
 )
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}
+
+assemblyJarName := "myApp.jar"
