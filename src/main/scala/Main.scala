@@ -10,8 +10,8 @@ object Main extends App {
   val spark = SparkSession.builder()
     .master("local")
     .appName("CitiesMongoSpark")
-    .config("spark.mongodb.input.uri", "mongodb://localhost/test.cities")
-    .config("spark.mongodb.output.uri", "mongodb://localhost/test.cities_output")
+    .config("spark.mongodb.input.uri", "mongodb://192.168.86.40/test.cities")
+    .config("spark.mongodb.output.uri", "mongodb://192.168.86.40/test.cities_output")
     .getOrCreate()
 
   import spark.implicits._
