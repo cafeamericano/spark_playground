@@ -29,7 +29,7 @@ pipeline {
       steps {
         script {
           docker.withRegistry('', 'Docker_Hub') {
-            def customImage = docker.build("mfarmer5102/appsbymatthew-spark:latest")
+            def customImage = docker.build("mfarmer5102/spark-playground:latest")
             customImage.push()
           }
         }
