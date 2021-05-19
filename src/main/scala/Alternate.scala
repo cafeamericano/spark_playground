@@ -23,7 +23,7 @@ object Alternate extends App {
   val readConfigCities = ReadConfig(Map("collection" -> "cities", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
   val citiesRdd = MongoSpark.load(spark.sparkContext, readConfigCities)
   val citiesDf = citiesRdd.toDF()
-    .filter("timestamp > DATE(NOW() - INTERVAL 7 DAY")
+    .filter("timestamp > DATE(NOW() - INTERVAL 7 DAY)")
     .groupBy($"name", $"population")
     .count()
     .agg(
