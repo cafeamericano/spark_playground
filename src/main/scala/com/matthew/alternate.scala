@@ -16,8 +16,10 @@ object alternate extends App {
   val spark = SparkSession.builder()
     .master("local")
     .appName("CitiesMongoSpark")
-    .config("spark.mongodb.input.uri", "mongodb://192.168.86.40/test.cities")
-    .config("spark.mongodb.output.uri", "mongodb://192.168.86.40/test.cities_output")
+    .config("spark.mongodb.input.uri", sys.env.get("INPUT_DB_URI"))
+    .config("spark.mongodb.output.uri", sys.env.get("OUTPUT_DB_URI"))
+//    .config("spark.mongodb.input.uri", "mongodb://192.168.86.40/test.cities")
+//    .config("spark.mongodb.output.uri", "mongodb://192.168.86.40/test.cities_output")
     .getOrCreate()
 
   import spark.implicits._
