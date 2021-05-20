@@ -1,3 +1,5 @@
+package com.matthew
+
 //import com.mongodb.client.{MongoClient, MongoClients}
 import com.mongodb.spark.MongoSpark
 import com.mongodb.spark.config.{ReadConfig, WriteConfig}
@@ -9,7 +11,7 @@ import org.apache.spark.sql.functions.current_timestamp
 import org.apache.spark.sql.functions.regexp_replace
 import org.apache.spark.sql.functions._
 
-object Alternate extends App {
+object alternate extends App {
 
   val spark = SparkSession.builder()
     .master("local")
