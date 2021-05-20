@@ -1,11 +1,17 @@
+package com.matthew
+
 //import com.mongodb.client.{MongoClient, MongoClients}
 import com.mongodb.spark.MongoSpark
 import com.mongodb.spark.config.{ReadConfig, WriteConfig}
 import org.apache.spark.{SparkException, rdd}
 import org.apache.spark.sql.{DataFrameWriter, SparkSession}
 import org.apache.spark.sql.functions.{col, countDistinct, sumDistinct, current_date}
+import org.bson.{BsonDocument, Document}
+import org.apache.spark.sql.functions.current_timestamp
+import org.apache.spark.sql.functions.regexp_replace
+import org.apache.spark.sql.functions._
 
-object Main extends App {
+object alternate extends App {
 
   val spark = SparkSession.builder()
     .master("local")
@@ -19,30 +25,18 @@ object Main extends App {
   val readConfigCities = ReadConfig(Map("collection" -> "cities", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
   val citiesRdd = MongoSpark.load(spark.sparkContext, readConfigCities)
   val citiesDf = citiesRdd.toDF()
+    .filter("timestamp > DATE(NOW() - INTERVAL 7 DAY)")
+    .groupBy($"name", $"population")
+    .count()
+    .agg(
+      first("name"),
+      sum("count"),
+      collect_list("population") as "populations"
+    )
+
   citiesDf.show()
-  citiesDf.createOrReplaceTempView("cities")
+  MongoSpark.save(citiesDf)
 
-  val readConfigStates = ReadConfig(Map("collection" -> "states", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
-  val statesRdd = MongoSpark.load(spark.sparkContext, readConfigStates)
-  val statesDf = statesRdd.toDF()
-  statesDf.show()
-  statesDf.createOrReplaceTempView("states")
-
-  val results = spark.sql(
-    """
-      |SELECT
-        |states.name,
-        |count(*),
-        |sum(population)
-      |FROM cities
-      |LEFT JOIN states ON cities.state = states.abbr
-      |WHERE population > 100000
-      |GROUP BY states.name
-    |""".stripMargin
-  )
-
-  results.show()
-  MongoSpark.save(results)
   spark.stop()
 
 }
