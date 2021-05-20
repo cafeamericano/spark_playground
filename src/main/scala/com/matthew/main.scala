@@ -1,9 +1,15 @@
 package com.matthew
 
+//import com.mongodb.client.{MongoClient, MongoClients}
 import com.mongodb.spark.MongoSpark
-import com.mongodb.spark.config.ReadConfig
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions.{col, current_timestamp, regexp_replace}
+import com.mongodb.spark.config.{ReadConfig, WriteConfig}
+import org.apache.spark.{SparkException, rdd}
+import org.apache.spark.sql.{DataFrameWriter, SparkSession}
+import org.apache.spark.sql.functions.{col, countDistinct, sumDistinct, current_date}
+import org.bson.{BsonDocument, Document}
+import org.apache.spark.sql.functions.current_timestamp
+import org.apache.spark.sql.functions.regexp_replace
+import org.apache.spark.sql.functions._
 
 object main extends App {
 
@@ -29,14 +35,14 @@ object main extends App {
   val results = spark.sql(
     """
       |SELECT
-      |states.name,
-      |count(*),
-      |sum(population)
+        |states.name,
+        |count(*),
+        |sum(population)
       |FROM cities
       |LEFT JOIN states ON cities.state = states.abbr
       |WHERE population > 100000
       |GROUP BY states.name
-      |""".stripMargin
+    |""".stripMargin
   )
   results.show()
 

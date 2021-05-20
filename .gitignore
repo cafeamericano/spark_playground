@@ -1,2 +1,5 @@
-streams/
+target/
+.idea
 *.jar
+.history
+.log
