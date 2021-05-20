@@ -20,6 +20,8 @@ object main extends App {
     .config("spark.mongodb.output.uri", "mongodb://192.168.86.40/test.cities_output")
     .getOrCreate()
 
+  import spark.implicits._
+
   val readConfigCities = ReadConfig(Map("collection" -> "cities", "readPreference.type" -> "secondaryPreferred"), Some(ReadConfig(spark.sparkContext)))
   val citiesRdd = MongoSpark.load(spark.sparkContext, readConfigCities)
   val citiesDf = citiesRdd.toDF()
