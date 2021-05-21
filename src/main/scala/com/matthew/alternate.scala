@@ -13,11 +13,16 @@ import org.apache.spark.sql.functions._
 
 object alternate extends App {
 
+  val inputUri = scala.util.Properties.envOrElse("INPUT_DB_URI", "undefined")
+  val outputUri = scala.util.Properties.envOrElse("OUTPUT_DB_URI", "undefined")
+
   val spark = SparkSession.builder()
     .master("local")
     .appName("CitiesMongoSpark")
-    .config("spark.mongodb.input.uri", "mongodb://192.168.86.40/test.cities")
-    .config("spark.mongodb.output.uri", "mongodb://192.168.86.40/test.cities_output")
+    .config("spark.mongodb.input.uri", inputUri)
+    .config("spark.mongodb.output.uri", outputUri)
+//    .config("spark.mongodb.input.uri", "mongodb://192.168.86.40/test.cities")
+//    .config("spark.mongodb.output.uri", "mongodb://192.168.86.40/test.cities_output")
     .getOrCreate()
 
   import spark.implicits._
