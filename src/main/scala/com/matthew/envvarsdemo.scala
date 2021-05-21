@@ -11,7 +11,7 @@ import org.apache.spark.sql.functions.current_timestamp
 import org.apache.spark.sql.functions.regexp_replace
 import org.apache.spark.sql.functions._
 
-object alternate extends App {
+object envvarsdemo extends App {
 
   val inputUri = scala.util.Properties.envOrElse("INPUT_DB_URI", "undefined")
   val outputUri = scala.util.Properties.envOrElse("OUTPUT_DB_URI", "undefined")

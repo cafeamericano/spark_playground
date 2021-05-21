@@ -11,7 +11,7 @@ import org.apache.spark.sql.functions.current_timestamp
 import org.apache.spark.sql.functions.regexp_replace
 import org.apache.spark.sql.functions._
 
-object main extends App {
+object sqldemo extends App {
 
   val spark = SparkSession.builder()
     .master("local")

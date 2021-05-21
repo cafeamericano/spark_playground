@@ -6,7 +6,7 @@ import com.mongodb.spark.config.ReadConfig
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.sql.functions._
 
-object traffic extends App {
+object portfoliologprototype extends App {
 
   val spark = SparkSession.builder()
     .master("local")
